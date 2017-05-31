@@ -418,23 +418,32 @@ var _TabPanel2 = _interopRequireDefault(_TabPanel);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getTabsCount(children) {
-  var tabLists = _react2.default.Children.toArray(children).filter(function (x) {
+  var childrenArray = Array.isArray(children) ? children : _react2.default.Children.toArray(children);
+
+  var tabLists = childrenArray.filter(function (x) {
     return x.type === _TabList2.default;
   });
 
-  if (tabLists[0] && tabLists[0].props.children) {
-    return _react2.default.Children.count(_react2.default.Children.toArray(tabLists[0].props.children).filter(function (x) {
+  if (tabLists[0]) {
+    var item = tabLists[0];
+    var tabListsChildren = item.props.children ? item.props.children : item.children;
+    var isArray = Array.isArray(tabListsChildren);
+    var tabListsChildrenArray = isArray ? tabListsChildren : _react2.default.Children.toArray(tabListsChildren);
+    var tabs = tabListsChildrenArray.filter(function (x) {
       return x.type === _Tab2.default;
-    }));
+    });
+    return tabs.length;
   }
 
   return 0;
 }
 
 function getPanelsCount(children) {
-  return _react2.default.Children.count(_react2.default.Children.toArray(children).filter(function (x) {
+  var childrenArray = Array.isArray(children) ? children : _react2.default.Children.toArray(children);
+  var panels = childrenArray.filter(function (x) {
     return x.type === _TabPanel2.default;
-  }));
+  });
+  return panels.length;
 }
 
 /***/ }),
@@ -484,7 +493,8 @@ function childrenPropType(props, propName, componentName) {
     }
 
     if (child.type === _TabList2.default) {
-      _react2.default.Children.forEach(child.props.children, function (c) {
+      var tabListChildren = child.props.children ? child.props.children : child.children;
+      _react2.default.Children.forEach(tabListChildren, function (c) {
         // null happens when conditionally rendering TabPanel/Tab
         // see https://github.com/reactjs/react-tabs/issues/37
         if (c === null) {
@@ -795,7 +805,6 @@ var UncontrolledTabs = function (_Component) {
           if (isTabDisabled(node)) {
             return;
           }
-
           var index = [].slice.call(node.parentNode.children).filter(isTabNode).indexOf(node);
           _this.setSelected(index, e);
           return;
@@ -912,9 +921,10 @@ var UncontrolledTabs = function (_Component) {
         // Figure out if the current focus in the DOM is set on a Tab
         // If it is we should keep the focus on the next selected tab
         var wasTabFocused = false;
+        var tabListChildren = child.props.children ? child.props.children : child.children;
 
         if (canUseActiveElement) {
-          wasTabFocused = _react2.default.Children.toArray(child.props.children).filter(function (tab) {
+          wasTabFocused = _react2.default.Children.toArray(tabListChildren).filter(function (tab) {
             return tab.type === _Tab2.default;
           }).some(function (tab, i) {
             return document.activeElement === _this2.getTab(i);
@@ -922,7 +932,7 @@ var UncontrolledTabs = function (_Component) {
         }
 
         result = (0, _react.cloneElement)(child, {
-          children: _react2.default.Children.map(child.props.children, function (tab) {
+          children: _react2.default.Children.map(tabListChildren, function (tab) {
             // null happens when conditionally rendering TabPanel/Tab
             // see https://github.com/reactjs/react-tabs/issues/37
             if (tab === null) {

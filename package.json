@@ -39,9 +39,6 @@
     "a11y",
     "react-component"
   ],
-  "peerDependencies": {
-    "react": "^0.14.9 || ^15.3.0"
-  },
   "devDependencies": {
     "babel-cli": "^6.9.0",
     "babel-core": "^6.9.1",
@@ -78,6 +75,8 @@
   },
   "dependencies": {
     "classnames": "^2.2.0",
+    "preact": "^8.1.0",
+    "preact-compat": "^3.16.0",
     "prop-types": "^15.5.0"
   },
   "jest": {

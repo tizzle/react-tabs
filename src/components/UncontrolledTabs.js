@@ -148,16 +148,17 @@ export default class UncontrolledTabs extends Component {
         // Figure out if the current focus in the DOM is set on a Tab
         // If it is we should keep the focus on the next selected tab
         let wasTabFocused = false;
+        const tabListChildren = child.props.children ? child.props.children : child.children;
 
         if (canUseActiveElement) {
           wasTabFocused = React.Children
-            .toArray(child.props.children)
+            .toArray(tabListChildren)
             .filter(tab => tab.type === Tab)
             .some((tab, i) => document.activeElement === this.getTab(i));
         }
 
         result = cloneElement(child, {
-          children: React.Children.map(child.props.children, tab => {
+          children: React.Children.map(tabListChildren, tab => {
             // null happens when conditionally rendering TabPanel/Tab
             // see https://github.com/reactjs/react-tabs/issues/37
             if (tab === null) {
@@ -240,7 +241,6 @@ export default class UncontrolledTabs extends Component {
         if (isTabDisabled(node)) {
           return;
         }
-
         const index = [].slice.call(node.parentNode.children).filter(isTabNode).indexOf(node);
         this.setSelected(index, e);
         return;

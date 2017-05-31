@@ -17,7 +17,8 @@ export function childrenPropType(props, propName, componentName) {
     }
 
     if (child.type === TabList) {
-      React.Children.forEach(child.props.children, c => {
+      const tabListChildren = child.props.children ? child.props.children : child.children;
+      React.Children.forEach(tabListChildren, c => {
         // null happens when conditionally rendering TabPanel/Tab
         // see https://github.com/reactjs/react-tabs/issues/37
         if (c === null) {

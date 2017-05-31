@@ -24,6 +24,7 @@ function buildEntries() {
 }
 
 module.exports = {
+  devtool: 'eval',
   entry: buildEntries(),
   output: {
     filename: '[name].js',
@@ -43,6 +44,18 @@ module.exports = {
         use: [ 'style-loader', 'css-loader' ],
       },
     ],
+  },
+  resolve: {
+    extensions: ['.webpack-loader.js', '.web-loader.js', '.loader.js', '.js', '.jsx'],
+    modules: [
+      path.resolve(__dirname, 'node_modules'),
+      'node_modules'
+    ],
+    alias: {
+      'react': 'preact-compat/dist/preact-compat',
+      'react-dom/server': 'preact-compat/server',
+      'react-dom': 'preact-compat/dist/preact-compat',
+    },
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({ name: 'shared' }),

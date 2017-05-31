@@ -58,7 +58,7 @@ const App = () => {
           <p>Source: <a href="https://angularjs.org/" target="_blank">Angular</a></p>
         </TabPanel>
       </Tabs>
-
+{/*
       <Tabs>
         <TabList>
           <Tab>Mario</Tab>
@@ -106,7 +106,7 @@ const App = () => {
           <h2>This is Tab C</h2>
           <p>Just mind that the output might be invalid HTML (<code>{'<div>'}</code> inside a <code>{'<ul>'}</code> for instance).</p>
         </TabPanel>
-      </Tabs>
+      </Tabs>*/}
     </div>
   );
 };
